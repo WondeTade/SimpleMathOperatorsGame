@@ -2,6 +2,7 @@
 Maths Game: Under development
 
 MathCrush
+
 1- creates a new window that has fixed number of rows and columns
 
 2- generates a unique random number that ranges from 1 to rowcolumnlevel
