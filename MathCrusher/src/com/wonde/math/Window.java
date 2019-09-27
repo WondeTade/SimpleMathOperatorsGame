@@ -375,19 +375,7 @@ public class Window extends JWindow implements ActionListener {
 					numList.clear();
 					break;
 				 	}
-		 				
-//		 			if (button_array[i][j].getText() != null)
-//					{
-//		 				if (level == 1)
-//		 				{
-//		 					button_array[i][j].setBackground(Color.LIGHT_GRAY);
-//		 				}
-//		 				else if (level == 2)
-//		 				{
-//		 					button_array[i][j].setBackground(Color.CYAN);
-//		 				}
-//					}
-		 				
+		 	
 		 		}
 		 	}
 			playerLevel.setText("" + this.level);
