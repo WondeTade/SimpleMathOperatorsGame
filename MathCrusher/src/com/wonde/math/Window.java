@@ -1,12 +1,11 @@
 package com.wonde.math;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -69,7 +68,7 @@ public class Window extends JWindow implements ActionListener {
 	public JWindow windowCreator(String name, int age) {
 		createContainers(name, age);
 		createButtons();
-		assignValueToButton(this.button_array);
+		levelRunner(score, this.level);
 		
 		window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		window.setLocationRelativeTo(null);
@@ -203,27 +202,36 @@ public class Window extends JWindow implements ActionListener {
 		button_array = new JButton[row][row];
 		
 //		Creating Buttons
-		for (int i = 0; i < row; i++) 
-		{
-			for (int j = 0; j < button_array[i].length; j++) 
+		try  {
+			Cursor invalidCursor = Cursor.getSystemCustomCursor("Invalid.32x32");
+			Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
+			for (int i = 0; i < row; i++) 
 			{
-				button_array[i][j] = new JButton();
-				button_array[i][j].setName("btn_"+ ((i*5)+j));
-				button_array[i][j].setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-				button_array[i][j].setLocation(a, k);
-				button_array[i][j].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(null, 1),
-			               BorderFactory.createLineBorder(null, 0)));
-				button_array[i][j].addActionListener(this);
-				button_array[i][j].setVisible(true);
-				
-				panel.add(button_array[i][j]);
-				panel.setVisible(true);
-					
-				a+=200; //location of button increases to x direction by 186px
+				for (int j = 0; j < button_array[i].length; j++) 
+				{
+					button_array[i][j] = new JButton();
+					button_array[i][j].setName("btn_"+ ((i*5)+j));
+					button_array[i][j].setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+					button_array[i][j].setLocation(a, k);
+					button_array[i][j].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(null, 1),
+				               BorderFactory.createLineBorder(null, 0)));
+					button_array[i][j].addActionListener(this);
+					button_array[i][j].setVisible(true);
+					button_array[i][j].setCursor(handCursor);
+					panel.add(button_array[i][j]);
+					panel.setVisible(true);
+						
+					a+=200; //location of button increases to x direction by 186px
+				}
+					k+=120; //location of button increases to y direction by 104px
+					a=0;
 			}
-				k+=120; //location of button increases to y direction by 104px
-				a=0;
 		}
+		catch (Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
+		assignValueToButton(this.button_array);
 		return button_array;
 	}
 	
@@ -231,60 +239,80 @@ public class Window extends JWindow implements ActionListener {
 		
 		randNumber = new RandomNumberGenerator();
 		randomNumberList = randNumber.uniqueRandomNumberGenerator(row, level, age);
-		
-//		Assign value to Buttons
-//		if (age <= 10) {
-//			for (int i = 0; i < row; i++) 
-//			{
-//				for (int j = 0; j < row; j++) 
-//				{
-//					if (button_array[i][j] == button_array[0][2] || 
-//						button_array[i][j] == button_array[2][2] ||
-//						button_array[i][j] == button_array[1][1] ||
-//						button_array[i][j] == button_array[2][1] ||
-//						button_array[i][j] == button_array[1][2] ||
-//						button_array[i][j] == button_array[1][0]) 
-//					{
-//						button_array[i][j].setBackground(Color.LIGHT_GRAY);
-//						button_array[i][j].setText("" + randomNumberList[i][j]);
-//						button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
-//					}
-//					else 
-//					{
-//						button_array[i][j].setText(null);
-//						button_array[i][j].setEnabled(false);
-//					}
-//					
-//					panel.add(button_array[i][j]);
-//					panel.setVisible(true);
-//				}
-//			}
-//		}
-//		else
-//		{
-			for (int i = 0; i < row; i++) 
+		try  {
+			Cursor invalidCursor = Cursor.getSystemCustomCursor("Invalid.32x32");
+			Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
+			if (this.level == 1) 
 			{
-				for (int j = 0; j < button_array[i].length; j++) 
+				for (int i = 0; i < row; i++) 
 				{
-					if (button_array[i][j] == button_array[j][i] || 
-						button_array[i][j] == button_array[0][4] ||
-						button_array[i][j] == button_array[1][3] ||
-						button_array[i][j] == button_array[3][1] ||
-						button_array[i][j] == button_array[4][0]) 
+					for (int j = 0; j < button_array[i].length; j++) 
 					{
-						button_array[i][j].setBackground(Color.LIGHT_GRAY);
-						button_array[i][j].setText("" + randomNumberList[i][j]);
-						button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
+						if (button_array[i][j] == button_array[j][i] || 
+							button_array[i][j] == button_array[0][4] ||
+							button_array[i][j] == button_array[1][3] ||
+							button_array[i][j] == button_array[3][1] ||
+							button_array[i][j] == button_array[4][0]) 
+						{
+							button_array[i][j].setBackground(Color.LIGHT_GRAY);
+							button_array[i][j].setText("" + randomNumberList[i][j]);
+							button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
+							
+						}
+						else 
+						{
+							button_array[i][j].setText(null);
+							button_array[i][j].setEnabled(false);
+						}
+					
+						panel.add(button_array[i][j]);
+						panel.setVisible(true);
 					}
-					else 
-					{
-						button_array[i][j].setText(null);
-						button_array[i][j].setEnabled(false);
-					}
-					panel.add(button_array[i][j]);
-					panel.setVisible(true);
 				}
 			}
+			if (this.level == 2 || this.level == 3 || this.level == 4 || this.level == 5)
+			{
+				for (int i = 0; i < row; i++) 
+				{
+					for (int j = 0; j < button_array[i].length; j++) 
+					{
+						if (level == 2)
+						{
+							button_array[i][j].setBackground(Color.CYAN);
+							button_array[i][j].setText("" + randomNumberList[i][j]);
+							button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
+							button_array[i][j].setCursor(handCursor);
+						}
+						else if (level == 3)
+						{
+							button_array[i][j].setBackground(Color.CYAN);
+							button_array[i][j].setText("" + randomNumberList[i][j]);
+							button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
+							button_array[i][j].setCursor(handCursor);
+						}
+						else if (level == 4)
+						{
+							button_array[i][j].setBackground(Color.CYAN);
+							button_array[i][j].setText("" + randomNumberList[i][j]);
+							button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
+							button_array[i][j].setCursor(handCursor);
+						}
+						else if (level == 5)
+						{
+							button_array[i][j].setBackground(Color.CYAN);
+							button_array[i][j].setText("" + randomNumberList[i][j]);
+							button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
+							button_array[i][j].setCursor(handCursor);
+						}
+					
+					}
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
 	}
 	 
 	public void actionPerformed(ActionEvent e) {
@@ -348,17 +376,17 @@ public class Window extends JWindow implements ActionListener {
 					break;
 				 	}
 		 				
-		 			if (button_array[i][j].getText() != null)
-					{
-		 				if (level == 1)
-		 				{
-		 					button_array[i][j].setBackground(Color.LIGHT_GRAY);
-		 				}
-		 				else if (level == 2)
-		 				{
-		 					button_array[i][j].setBackground(Color.CYAN);
-		 				}
-					}
+//		 			if (button_array[i][j].getText() != null)
+//					{
+//		 				if (level == 1)
+//		 				{
+//		 					button_array[i][j].setBackground(Color.LIGHT_GRAY);
+//		 				}
+//		 				else if (level == 2)
+//		 				{
+//		 					button_array[i][j].setBackground(Color.CYAN);
+//		 				}
+//					}
 		 				
 		 		}
 		 	}
@@ -388,7 +416,7 @@ public class Window extends JWindow implements ActionListener {
 		 				if (Integer.parseInt(button_array[i][j].getText()) == sum 
 		 						|| Integer.parseInt(button_array[i][j].getText()) == sub)
 		 				{
-		 					button_array[i][j].setBackground(Color.DARK_GRAY);
+		 					button_array[i][j].setBackground(UIManager.getColor("Button.background"));
 							button_array[i][j].setText(null);
 							button_array[i][j].setEnabled(false);
 						
@@ -425,7 +453,6 @@ public class Window extends JWindow implements ActionListener {
 		 			{
 		 				if ((button_array[i][j].getText()==null))
 		 				{
-		 					
 							button_array[i][j].setEnabled(false);
 		 					continue;
 		 				}
@@ -433,7 +460,7 @@ public class Window extends JWindow implements ActionListener {
 		 					|| (Integer.parseInt(button_array[i][j].getText()) == sub)
 		 					|| (Integer.parseInt(button_array[i][j].getText()) == div))
 		 				{
-		 					button_array[i][j].setBackground(Color.DARK_GRAY);
+		 					button_array[i][j].setBackground(UIManager.getColor("Button.background"));
 							button_array[i][j].setText(null);
 							button_array[i][j].setEnabled(false);
 						
@@ -482,7 +509,7 @@ public class Window extends JWindow implements ActionListener {
 		 					|| (Integer.parseInt(button_array[i][j].getText()) == div)
 		 					|| (Integer.parseInt(button_array[i][j].getText()) == mult))
 		 				{
-		 					button_array[i][j].setBackground(Color.DARK_GRAY);
+		 					button_array[i][j].setBackground(UIManager.getColor("Button.background"));
 							button_array[i][j].setText(null);
 							button_array[i][j].setEnabled(false);
 						
