@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 
-public class Main extends JFrame{
+public class MathCrusher extends JFrame{
 	
 	/**
 	 * 
@@ -15,7 +15,7 @@ public class Main extends JFrame{
 	private static String name = null;
 	private static int age = 0;
 
-	public Main() {
+	public MathCrusher() {
 		
 		initUI(); 
 	}
@@ -37,7 +37,7 @@ public class Main extends JFrame{
 		
 		  EventQueue.invokeLater(() -> {
 //		
-			JFrame numberAnimator = new Main();
+			JFrame numberAnimator = new MathCrusher();
 		    numberAnimator.setVisible(true);
 		        
 		    String input = JOptionPane.showInputDialog("Enter age");
