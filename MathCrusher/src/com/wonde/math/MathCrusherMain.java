@@ -52,8 +52,9 @@ public class MathCrusherMain extends JFrame{
 			JFrame numberAnimator = new MathCrusherMain();
 		    numberAnimator.setVisible(true);
 		        
-		    String input = JOptionPane.showInputDialog("Enter age");
-		    age = Integer.parseInt(input);
+//		    String input = JOptionPane.showInputDialog("Enter age");
+//		    age = Integer.parseInt(input);
+		    age = 20;
 		   	
 //		    if (age < 18) 
 //    		{
