@@ -5,15 +5,15 @@ MathCrush
 
 1- creates a new window that has fixed number of rows and columns
 
-2- generates a unique random number that ranges from 1 to row x column x level
+2- generates a unique random number that ranges from 1 to row * column * level
 
 3- Level 1: is addition - some selected (9 cells, in this case) assigned with a unique random numbers
 
 4- search for two numbers that add up and gives a result that exists on the window
 
--> if the result (sum) matches with a number on the window that number eliminated from the window
+-> if the result (sum) matches with a number on the window that number is eliminated from the window
 
--> the sums adds up on the current score
+-> the sum adds up on the current score
 
 5- Level 2: addition - the whole cell will be assigned with a unique random number
 
