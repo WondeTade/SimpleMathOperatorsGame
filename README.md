@@ -5,7 +5,7 @@ MathCrush
 
 1- creates a new window that has fixed number of rows and columns
 
-2- generates a unique random number that ranges from 1 to rowcolumnlevel
+2- generates a unique random number that ranges from 1 to row x column x level
 
 3- Level 1: is addition - some selected (9 cells, in this case) assigned with a unique random numbers
 
