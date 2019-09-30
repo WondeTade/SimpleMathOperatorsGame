@@ -2,6 +2,8 @@ package com.wonde.math;
 
 
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -20,6 +22,10 @@ public class MathCrusher extends JFrame{
 		initUI(); 
 	}
 	
+	public void exitGame() {
+		System.exit(0);
+	}
+	
 	//initialize user interface 
 	   private void initUI() {
 	        
@@ -31,6 +37,12 @@ public class MathCrusher extends JFrame{
 	        setTitle("WelCome To MathsCrusher");    
 	        setLocationRelativeTo(null);
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+//	        addWindowListener(new WindowAdapter () {
+//	        	public void windowClosing() {
+//	        		System.err.println("Game Exited!");
+//	        		exitGame();
+//	        	}
+//	        });   	
 	    }
 	
 	public static void main(String[] args) throws Exception{
