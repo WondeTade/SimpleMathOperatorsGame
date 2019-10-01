@@ -2,8 +2,6 @@ package com.wonde.math;
 
 
 import java.awt.EventQueue;
-import java.awt.event.WindowAdapter;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
