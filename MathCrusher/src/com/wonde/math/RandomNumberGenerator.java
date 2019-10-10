@@ -16,7 +16,6 @@ public class RandomNumberGenerator {
 		int[] tempRandNum = new int[randNumSize]; //temporary random number array
 		int[] numList = new int[randNumSize];
 		int[][] uniqueNumber = new int[row][row];
-		
 			
 		
 		if (age <= 10) 

@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 public class MathCrusherMain extends JFrame{
 	
-	/**
+	/** 
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;

@@ -80,12 +80,6 @@ public class WelcomePlayer extends JPanel implements Runnable{
 		
 	}
 	
-//	public void addNotify() {
-//		super.addNotify();
-//
-//		animator = new Thread(this);
-//		animator.start();
-//	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

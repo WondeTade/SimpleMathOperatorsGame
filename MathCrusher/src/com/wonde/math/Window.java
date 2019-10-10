@@ -36,10 +36,13 @@ public class Window extends JWindow implements ActionListener {
 	private JButton resetButton;
 	private JButton quiteButton;
 	
-	private int sum;
 	private int level = 1;
 	private int row = 0;
 	private int score = 0;
+	
+	int firstCapturedNum = 0;
+	int secondCapturedNum = 0;
+	
 	private int currentScoreLevel_1 = 0;
 	private int currentScoreLevel_2 = 0;
 	private int currentScoreLevel_3 = 0;
@@ -196,8 +199,8 @@ public class Window extends JWindow implements ActionListener {
 //	Creates button matrix
 	public JButton[][] createButtons() {
 		
-		int k = 0;
-		int a = 0;
+		int columnWidth = 0;
+		int columnHeight = 0;
 		level = levelRunner(score, this.level);
 		button_array = new JButton[row][row];
 		
@@ -212,7 +215,7 @@ public class Window extends JWindow implements ActionListener {
 					button_array[i][j] = new JButton();
 					button_array[i][j].setName("btn_"+ ((i*5)+j));
 					button_array[i][j].setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-					button_array[i][j].setLocation(a, k);
+					button_array[i][j].setLocation(columnWidth, columnHeight);
 					button_array[i][j].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(null, 1),
 				               BorderFactory.createLineBorder(null, 0)));
 					button_array[i][j].addActionListener(this);
@@ -221,10 +224,10 @@ public class Window extends JWindow implements ActionListener {
 					panel.add(button_array[i][j]);
 					panel.setVisible(true);
 						
-					a+=200; //location of button increases to x direction by 186px
+					columnWidth+=200; //location of button increases to x direction by 186px
 				}
-					k+=120; //location of button increases to y direction by 104px
-					a=0;
+				columnHeight+=120; //location of button increases to y direction by 104px
+				columnWidth=0;
 			}
 		}
 		catch (Exception e)
@@ -240,7 +243,6 @@ public class Window extends JWindow implements ActionListener {
 		randNumber = new RandomNumberGenerator();
 		randomNumberList = randNumber.uniqueRandomNumberGenerator(row, level, age);
 		try  {
-			Cursor invalidCursor = Cursor.getSystemCustomCursor("Invalid.32x32");
 			Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
 			if (this.level == 1) 
 			{
@@ -280,31 +282,24 @@ public class Window extends JWindow implements ActionListener {
 						{
 							button_array[i][j].setBackground(Color.CYAN);
 							button_array[i][j].setText("" + randomNumberList[i][j]);
-							button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
-							button_array[i][j].setCursor(handCursor);
 						}
 						else if (level == 3)
 						{
 							button_array[i][j].setBackground(Color.CYAN);
 							button_array[i][j].setText("" + randomNumberList[i][j]);
-							button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
-							button_array[i][j].setCursor(handCursor);
 						}
 						else if (level == 4)
 						{
 							button_array[i][j].setBackground(Color.CYAN);
 							button_array[i][j].setText("" + randomNumberList[i][j]);
-							button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
-							button_array[i][j].setCursor(handCursor);
 						}
 						else if (level == 5)
 						{
 							button_array[i][j].setBackground(Color.CYAN);
 							button_array[i][j].setText("" + randomNumberList[i][j]);
-							button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
-							button_array[i][j].setCursor(handCursor);
 						}
-					
+						button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
+						button_array[i][j].setCursor(handCursor);
 					}
 				}
 			}
@@ -318,28 +313,17 @@ public class Window extends JWindow implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 			
 //		get button value, when clicked
-		int tempValue = Integer.parseInt(e.getActionCommand());
+		int btnValue = Integer.parseInt(e.getActionCommand());
 
 		selectButton(button_array, row);
+		numList.add(btnValue);
 		
-//		add collected number TO numList
-		numList.add(tempValue);
-			
-		int num1 = 0;
-		int num2 = 0;
-		int sub = 0;
-		int div = 0;
-		int mult = 0;
-		num2 = numList.get((numList.size()-1));
-		
-//		Level 1 and Level 2
-	 	if (numList.size() > 1 && (this.level == 1 || this.level == 2)) 
+		secondCapturedNum = numList.get((numList.size()-1));
+
+	 	if (numList.size() > 1 ) 
 	 	{
-	 		num1 = numList.get((numList.size()-2));
-	 		sum = num1 + num2;
-	 			
-//	 		get each button value and add them up, then store it in array "sumList"
-//		    remove the button that holds value same as sum
+	 		firstCapturedNum = numList.get((numList.size()-2));
+	 		MathOperation targetValue = returnTargetValue(firstCapturedNum, secondCapturedNum);
 	 			
 	 		for (int i = 0; i < row; i++) 
 	 		{
@@ -350,177 +334,86 @@ public class Window extends JWindow implements ActionListener {
 	 					button_array[i][j].setEnabled(false);
 	 					continue;
 	 				}
-	 				if (Integer.parseInt(button_array[i][j].getText()) == sum) 
-	 				{
-	 					button_array[i][j].setBackground(UIManager.getColor("Button.background"));
-	 					button_array[i][j].setText(null);
-						button_array[i][j].setEnabled(false);
 						
-						if (level == 1) 
+						if (level == 1 && (Integer.parseInt(button_array[i][j].getText()) == targetValue.add)) 
 						{
-							this.mouseCount = 0;
-							this.score +=sum;
+							this.score +=Integer.parseInt(button_array[i][j].getText());
+							button_array[i][j].setText(null);
+							button_array[i][j].setEnabled(false);
+							button_array[i][j].setBackground(UIManager.getColor("Button.background"));
 							this.currentScoreLevel_1 = this.score;
+							clickedButton_array[mouseCount-1].setBackground(Color.LIGHT_GRAY);
 						}
-						else if (level == 2) 
+						else if (level == 2 && (Integer.parseInt(button_array[i][j].getText()) == targetValue.add)) 
 						{
-							this.score +=sum;
+							this.score +=Integer.parseInt(button_array[i][j].getText());
+							button_array[i][j].setText(null);
+							button_array[i][j].setEnabled(false);
+							button_array[i][j].setBackground(UIManager.getColor("Button.background"));
 							this.currentScoreLevel_2 = this.score;
+//							clickedButton_array[mouseCount-1].setBackground(Color.CYAN);
 						}
-						
-					playerScore.setText("" + this.score);
-					levelRunner(this.score, this.level);
-					this.mouseCount = 0;
-		 			sum = 0;
-					numList.clear();
-					break;
-				 	}
-		 	
-		 		}
-		 	}
-			playerLevel.setText("" + this.level);
-	 		}
-	 		
-//	 		Level 3
-	 		if (numList.size() > 1 && this.level == 3) 
-	 		{
-	 			num1 = numList.get((numList.size()-2));
-	 			sum = num1 + num2;
-	 			 sub = Math.abs(num1 - num2);
-	 			
-//	 			get each button value and add them, then store it in array list sumList
-//		 	    remove the button that holds value same as sum
-	 		
-	 			for (int i = 0; i < row; i++) 
-	 			{
-		 			for (int j = 0; j < button_array[i].length; j++) 
-		 			{
-		 				if ((button_array[i][j].getText()==null))
-		 				{
-							button_array[i][j].setEnabled(false);
-		 					continue;
-		 				}
-		 					
-		 				if (Integer.parseInt(button_array[i][j].getText()) == sum 
-		 						|| Integer.parseInt(button_array[i][j].getText()) == sub)
-		 				{
-		 					button_array[i][j].setBackground(UIManager.getColor("Button.background"));
+						else if (level == 3 && (Integer.parseInt(button_array[i][j].getText()) == targetValue.add
+											|| Integer.parseInt(button_array[i][j].getText()) == targetValue.minus))
+						{
+						System.out.println("Before  :   " + this.score);
+							this.score +=Integer.parseInt(button_array[i][j].getText());
+						System.out.println("After  :   " + this.score);
 							button_array[i][j].setText(null);
 							button_array[i][j].setEnabled(false);
-						
-							this.score +=sum;
-							playerScore.setText("" + this.score);
+							button_array[i][j].setBackground(UIManager.getColor("Button.background"));
 							this.currentScoreLevel_3 = this.score;
-							levelRunner(score, this.level);
-							sum = 0;
-							numList.clear();
-							break;
-		 				}
-		 				if ((button_array[i][j].getText()!=null))
-	 					{
-	 						button_array[i][j].setBackground(Color.MAGENTA);
-	 					}
-		 			}
-		 		}
-				playerLevel.setText("" + this.level);
-	 		}
-	 		
-//	 		Level 4
-	 		if (numList.size() > 1 && this.level == 4) {
-	 			
-	 			num1 = numList.get((numList.size()-2));
-	 			sum = num1 + num2;
-	 			sub = Math.abs(num1 - num2);
-	 			div = num1/num2;
-	 			
-//	 			get each button value and add them, then store it in array list sumList
-//		 	    remove the button that holds value same as sum
-	 		
-	 			for (int i = 0; i < row; i++) {
-		 			for (int j = 0; j < button_array[i].length; j++) 
-		 			{
-		 				if ((button_array[i][j].getText()==null))
-		 				{
-							button_array[i][j].setEnabled(false);
-		 					continue;
-		 				}
-		 				if ((Integer.parseInt(button_array[i][j].getText()) == sum) 
-		 					|| (Integer.parseInt(button_array[i][j].getText()) == sub)
-		 					|| (Integer.parseInt(button_array[i][j].getText()) == div))
-		 				{
-		 					button_array[i][j].setBackground(UIManager.getColor("Button.background"));
+							clickedButton_array[mouseCount-1].setBackground(Color.MAGENTA);
+						}
+						else if (level == 4 && (Integer.parseInt(button_array[i][j].getText()) == targetValue.add
+											|| Integer.parseInt(button_array[i][j].getText()) == targetValue.minus
+											|| Integer.parseInt(button_array[i][j].getText()) == targetValue.div))
+						{
+							this.score +=Integer.parseInt(button_array[i][j].getText());
 							button_array[i][j].setText(null);
 							button_array[i][j].setEnabled(false);
-						
-							this.score +=sum;
-							playerScore.setText("" + this.score);
+							button_array[i][j].setBackground(UIManager.getColor("Button.background"));
 							this.currentScoreLevel_4 = this.score;
-							levelRunner(score, this.level);
-//							
-							sum = 0;
-							numList.clear();
-							break;
-		 				}
-		 				if ((button_array[i][j].getText()!=null))
-	 					{
-	 						button_array[i][j].setBackground(Color.ORANGE);
-	 					}
-		 			}
-		 		}
-				playerLevel.setText("" + this.level);
-	 		}
-	 		
-//	 		Level 5
-	 		if (numList.size() > 1 && this.level == 5) 
-	 		{
-	 			num1 = numList.get((numList.size()-2));
-	 			sum = num1 + num2;
-	 			sub = Math.abs(num1 - num2);
-	 			div = num1/num2;
-	 			mult = num1 * num2;
-	 			
-//	 			get each button value and add them, then store it in array list sumList
-//		 	    remove the button that holds value same as sum
-	 		
-	 			for (int i = 0; i < row; i++) 
-	 			{
-		 			for (int j = 0; j < button_array[i].length; j++) 
-		 			{
-		 				if ((button_array[i][j].getText()==null))
-		 				{
-							button_array[i][j].setEnabled(false);
-		 					continue;
-		 				}
-		 					
-		 				if ((Integer.parseInt(button_array[i][j].getText()) == sum) 
-		 					|| (Integer.parseInt(button_array[i][j].getText()) == sub)
-		 					|| (Integer.parseInt(button_array[i][j].getText()) == div)
-		 					|| (Integer.parseInt(button_array[i][j].getText()) == mult))
-		 				{
-		 					button_array[i][j].setBackground(UIManager.getColor("Button.background"));
+							clickedButton_array[mouseCount-1].setBackground(Color.ORANGE);
+						}
+						else if (level == 5 && (Integer.parseInt(button_array[i][j].getText()) == targetValue.add
+											|| Integer.parseInt(button_array[i][j].getText()) == targetValue.minus
+											|| Integer.parseInt(button_array[i][j].getText()) == targetValue.div
+											|| Integer.parseInt(button_array[i][j].getText()) == targetValue.mult))
+						{
+							this.score +=Integer.parseInt(button_array[i][j].getText());
 							button_array[i][j].setText(null);
 							button_array[i][j].setEnabled(false);
-						
-							this.score +=sum;
-							playerScore.setText("" + this.score);
-							levelRunner(score, this.level);
-							
-							sum = 0;
-							numList.clear();
-							break;
-		 				}
-		 				if ((button_array[i][j].getText()!=null))
-	 					{
-	 						button_array[i][j].setBackground(Color.YELLOW);
-	 					}
-		 			}
+							button_array[i][j].setBackground(UIManager.getColor("Button.background"));
+							clickedButton_array[mouseCount-1].setBackground(Color.YELLOW);
+						}
+				 	}
 		 		}
-				playerLevel.setText("" + this.level);
-	 		}
+	 		playerScore.setText("" + this.score);
+			levelRunner(this.score, this.level);
+			this.mouseCount = 0;
+			
+ 			targetValue.add = 0;
+ 			targetValue.div = 0;
+ 			targetValue.minus = 0;
+ 			targetValue.mult = 0;
+			numList.clear();
+			playerLevel.setText("" + this.level);
 		}
+	 		
+	}
+	
+	public MathOperation returnTargetValue(int firstCapturedNum, int secondCapturedNum) {
 		
+		this.firstCapturedNum = firstCapturedNum;
+		this.secondCapturedNum = secondCapturedNum;
 		
-//		level returning method, takes current score value. 
+		return new MathOperation(firstCapturedNum + secondCapturedNum,
+				Math.abs(firstCapturedNum - secondCapturedNum),
+				(double)firstCapturedNum / secondCapturedNum,
+				firstCapturedNum * secondCapturedNum);
+	}
+		
 		public int levelRunner(int score, int level) {
 			
 			if (level == 1 && (score >= 75 && score < 450) ) 
