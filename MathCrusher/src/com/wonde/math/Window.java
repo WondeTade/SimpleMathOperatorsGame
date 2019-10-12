@@ -59,6 +59,8 @@ public class Window extends JWindow implements ActionListener {
 	private JButton[][] button_array = new JButton[row][row];
 	private int[][] randomNumberList;
 	private JButton[] clickedButton_array;
+	
+	private Color[] colorList = {Color.LIGHT_GRAY, Color.CYAN, Color.MAGENTA, Color.ORANGE, Color.YELLOW};
 
 	List<Integer> numList = new ArrayList<>();
 
@@ -71,7 +73,7 @@ public class Window extends JWindow implements ActionListener {
 	public JWindow windowCreator(String name, int age) {
 		createContainers(name, age);
 		createButtons();
-		levelRunner(score, this.level);
+		levelRunner(this.score);
 
 		window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		window.setLocationRelativeTo(null);
@@ -164,7 +166,6 @@ public class Window extends JWindow implements ActionListener {
 		panel.setLocation(0, 50);
 		panel.setSize(1000, 600);
 		panel.setBackground(Color.gray);
-
 		quitAndResetButtonsActionListener();
 	}
 
@@ -197,7 +198,7 @@ public class Window extends JWindow implements ActionListener {
 
 		int columnWidth = 0;
 		int columnHeight = 0;
-		level = levelRunner(score, this.level);
+		level = levelRunner(score);
 		button_array = new JButton[row][row];
 
 //		Creating Buttons
@@ -242,7 +243,6 @@ public class Window extends JWindow implements ActionListener {
 						if (button_array[i][j] == button_array[j][i] || button_array[i][j] == button_array[0][4]
 								|| button_array[i][j] == button_array[1][3] || button_array[i][j] == button_array[3][1]
 								|| button_array[i][j] == button_array[4][0]) {
-							button_array[i][j].setBackground(Color.LIGHT_GRAY);
 							button_array[i][j].setText("" + randomNumberList[i][j]);
 						} else {
 							button_array[i][j].setText(null);
@@ -252,19 +252,16 @@ public class Window extends JWindow implements ActionListener {
 						panel.setVisible(true);
 					} else {
 						if (level == 2) {
-							button_array[i][j].setBackground(Color.CYAN);
 							button_array[i][j].setText("" + randomNumberList[i][j]);
 						} else if (level == 3) {
-							button_array[i][j].setBackground(Color.CYAN);
 							button_array[i][j].setText("" + randomNumberList[i][j]);
 						} else if (level == 4) {
-							button_array[i][j].setBackground(Color.CYAN);
 							button_array[i][j].setText("" + randomNumberList[i][j]);
 						} else if (level == 5) {
-							button_array[i][j].setBackground(Color.CYAN);
 							button_array[i][j].setText("" + randomNumberList[i][j]);
 						}
 					}
+					button_array[i][j].setBackground(colorList[this.level-1]);
 					button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
 					button_array[i][j].setCursor(handCursor);
 				}
@@ -341,7 +338,7 @@ public class Window extends JWindow implements ActionListener {
 				}
 			}
 			playerScore.setText("" + this.score);
-			levelRunner(this.score, this.level);
+			levelRunner(this.score);
 			this.mouseCount = 0;
 			targetValue.add = 0;
 			targetValue.div = 0;
@@ -362,17 +359,16 @@ public class Window extends JWindow implements ActionListener {
 				(double) firstCapturedNum / secondCapturedNum, firstCapturedNum * secondCapturedNum);
 	}
 
-	public int levelRunner(int score, int level) {
+	public int levelRunner(int score) {
 
-		if (level == 1 && (score >= 75 && score < 450)) {
+		if (this.level == 1 && (score >= 75 && score < 450)) {
 			JOptionPane.showMessageDialog(panel, "COngrats! You Got Level 2 " + "\nScore: " + this.score);
 
 			this.level = 2;
-			row = 5;
 			mathOperator.setText("Operator: +");
 			gameReset();
 
-		} else if (level == 2 && (score >= 450 && score < 1000)) {
+		} else if (this.level == 2 && (score >= 450 && score < 1000)) {
 			JOptionPane.showMessageDialog(panel,
 					"Congrats! You Got Level 3" + "\nScore: " + this.score + "\nINSTRUCTION "
 							+ "\nThe absolute sum and subtraction of two numbers " + "\nFor example: firstnumber is 5 "
@@ -380,37 +376,35 @@ public class Window extends JWindow implements ActionListener {
 							+ "\n 7 and 3 will disappear from the screen");
 
 			this.level = 3;
-			row = 5;
 			mathOperator.setText("Operators:  +, -");
 			gameReset();
 
-		} else if (level == 3 && (score >= 1000 && score < 2000)) {
+		} else if (this.level == 3 && (score >= 1000 && score < 2000)) {
 			JOptionPane.showMessageDialog(panel,
 					"COngrats! You Got Level 4 " + "\nScore: " + this.score + "\nAddition \nSubtraction \nDivision ");
 
 			this.level = 4;
-			row = 5;
 			mathOperator.setText("Operators:  +, -, " + "\u00F7\"");
 			gameReset();
-		} else if (level == 4 && score >= 2000) {
+		} else if (this.level == 4 && score >= 2000) {
 			JOptionPane.showMessageDialog(panel, "COngrats! You Got Level 5 " + "\nScore: " + this.score
 					+ "\nAddition \nSubtraction \nDivision \nMultiplication");
 
 			this.level = 5;
-			row = 5;
 			mathOperator.setText("Operators:  +, -, " + "\u00F7\"" + ", *");
 			gameReset();
 		} else if (score < 75) {
 			this.level = 1;
-			row = 5;
 		}
+		
+		row = 5;
 
 		return level;
 	}
 
 	public int getLevel(int score) {
 		this.score = score;
-		levelRunner(score, this.level);
+		levelRunner(score);
 
 		return level;
 	}
@@ -451,11 +445,8 @@ public class Window extends JWindow implements ActionListener {
 				}
 			}
 			this.score = 0;
-			this.mouseCount = 0;
 			playerScore.setText("" + this.score);
 			panel.setBackground(Color.CYAN);
-			panel.setLocation(0, 50);
-			panel.setVisible(true);
 		} else {
 			for (int i = 0; i < row; i++) {
 				for (int j = 0; j < button_array[i].length; j++) {
@@ -486,10 +477,10 @@ public class Window extends JWindow implements ActionListener {
 					}
 				}
 			}
-			this.mouseCount = 0;
-			panel.setLocation(0, 50);
-			panel.setVisible(true);
 		}
+		this.mouseCount = 0;
+		panel.setLocation(0, 50);
+		panel.setVisible(true);
 	}
 
 	public void selectButton(JButton[][] button_array, int row) {
