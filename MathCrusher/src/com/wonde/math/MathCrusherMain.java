@@ -35,12 +35,7 @@ public class MathCrusherMain extends JFrame{
 	        setTitle("WelCome To MathsCrusher");    
 	        setLocationRelativeTo(null);
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
-//	        addWindowListener(new WindowAdapter () {
-//	        	public void windowClosing() {
-//	        		System.err.println("Game Exited!");
-//	        		exitGame();
-//	        	}
-//	        });   	
+   	
 	    }
 	
 	public static void main(String[] args) throws Exception{
@@ -54,33 +49,6 @@ public class MathCrusherMain extends JFrame{
 //		    age = Integer.parseInt(input);
 		    age = 20;
 		   	
-//		    if (age < 18) 
-//    		{
-//    			int choice = JOptionPane.showConfirmDialog(null, "This Age group is included for now \n You want to take? ", 
-//						"Age >= 18", JOptionPane.YES_NO_OPTION);
-//    			if (choice == JOptionPane.YES_OPTION )
-//    			{
-//    				name = JOptionPane.showInputDialog("Enter Player's Name");
-//    	    		if (name.isEmpty()) 
-//    	    		{
-//    	    			name = "No name";
-//    	    		}
-////    				numberAnimator.dispose();
-//    				new Window(name, age);
-//    			}
-//    			else 
-//    			{
-//    				System.exit(0);
-//    			}
-//    		}
-//		   	else
-//		   	{
-//		   	   name = JOptionPane.showInputDialog("Enter Player's Name");
-//	    		if (name.isEmpty()) 
-//	    		{
-//	    			name = "No name";
-//	    		}
-//		   	}
 		    name = JOptionPane.showInputDialog("Enter Player's Name");
 		    if (name.isEmpty()) 
     		{
