@@ -298,14 +298,14 @@ public class Window extends JWindow implements ActionListener {
 						button_array[i][j].setEnabled(false);
 						button_array[i][j].setBackground(UIManager.getColor("Button.background"));
 						this.currentScoreLevel_1 = this.score;
-						clickedButton_array[mouseCount - 1].setBackground(Color.LIGHT_GRAY);
+//						clickedButton_array[mouseCount - 1].setBackground(colorList[this.level - 1]);
 					} else if (level == 2 && (Integer.parseInt(button_array[i][j].getText()) == targetValue.add)) {
 						this.score += Integer.parseInt(button_array[i][j].getText());
 						button_array[i][j].setText(null);
 						button_array[i][j].setEnabled(false);
 						button_array[i][j].setBackground(UIManager.getColor("Button.background"));
 						this.currentScoreLevel_2 = this.score;
-						clickedButton_array[mouseCount - 1].setBackground(Color.CYAN);
+//						clickedButton_array[mouseCount - 1].setBackground(colorList[this.level - 1]);
 					} else if (level == 3 && (Integer.parseInt(button_array[i][j].getText()) == targetValue.add
 							|| Integer.parseInt(button_array[i][j].getText()) == targetValue.minus)) {
 						System.out.println("Before  :   " + this.score);
@@ -315,7 +315,7 @@ public class Window extends JWindow implements ActionListener {
 						button_array[i][j].setEnabled(false);
 						button_array[i][j].setBackground(UIManager.getColor("Button.background"));
 						this.currentScoreLevel_3 = this.score;
-						clickedButton_array[mouseCount - 1].setBackground(Color.MAGENTA);
+//						clickedButton_array[mouseCount - 1].setBackground(colorList[this.level - 1]);
 					} else if (level == 4 && (Integer.parseInt(button_array[i][j].getText()) == targetValue.add
 							|| Integer.parseInt(button_array[i][j].getText()) == targetValue.minus
 							|| Integer.parseInt(button_array[i][j].getText()) == targetValue.div)) {
@@ -324,7 +324,7 @@ public class Window extends JWindow implements ActionListener {
 						button_array[i][j].setEnabled(false);
 						button_array[i][j].setBackground(UIManager.getColor("Button.background"));
 						this.currentScoreLevel_4 = this.score;
-						clickedButton_array[mouseCount - 1].setBackground(Color.ORANGE);
+//						clickedButton_array[mouseCount - 1].setBackground(colorList[this.level - 1]);
 					} else if (level == 5 && (Integer.parseInt(button_array[i][j].getText()) == targetValue.add
 							|| Integer.parseInt(button_array[i][j].getText()) == targetValue.minus
 							|| Integer.parseInt(button_array[i][j].getText()) == targetValue.div
@@ -333,7 +333,7 @@ public class Window extends JWindow implements ActionListener {
 						button_array[i][j].setText(null);
 						button_array[i][j].setEnabled(false);
 						button_array[i][j].setBackground(UIManager.getColor("Button.background"));
-						clickedButton_array[mouseCount - 1].setBackground(Color.YELLOW);
+//						clickedButton_array[mouseCount - 1].setBackground(colorList[this.level - 1]);
 					}
 				}
 			}
@@ -427,58 +427,48 @@ public class Window extends JWindow implements ActionListener {
 		randNumber = new RandomNumberGenerator();
 		randomNumberList = randNumber.uniqueRandomNumberGenerator(row, this.level, age);
 
-		if (this.level == 1) {
 			for (int i = 0; i < row; i++) {
 				for (int j = 0; j < button_array[i].length; j++) {
-					if (button_array[i][j] == button_array[j][i] || button_array[i][j] == button_array[0][4]
-							|| button_array[i][j] == button_array[1][3] || button_array[i][j] == button_array[3][1]
+					if (this.level == 1 ) {
+							
+					if (button_array[i][j] == button_array[j][i] 
+							|| button_array[i][j] == button_array[0][4]
+							|| button_array[i][j] == button_array[1][3] 
+							|| button_array[i][j] == button_array[3][1]
 							|| button_array[i][j] == button_array[4][0]) {
 						button_array[i][j].setText("" + randomNumberList[i][j]);
-						button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
-						button_array[i][j].setBackground(Color.LIGHT_GRAY);
 						button_array[i][j].setEnabled(true);
+						
 					} else {
 						button_array[i][j].setText(null);
 						button_array[i][j].setEnabled(false);
 					}
-
 				}
-			}
-			this.score = 0;
-			playerScore.setText("" + this.score);
-			panel.setBackground(Color.CYAN);
-		} else {
-			for (int i = 0; i < row; i++) {
-				for (int j = 0; j < button_array[i].length; j++) {
+				else
+				{
 					button_array[i][j].setEnabled(true);
 					button_array[i][j].setText("" + randomNumberList[i][j]);
-					button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
-
+					
 					if (level == 2) {
 						this.score = this.currentScoreLevel_1;
-						button_array[i][j].setBackground(Color.CYAN);
 						playerScore.setText("" + this.currentScoreLevel_1);
-						panel.setBackground(Color.CYAN);
 					} else if (level == 3) {
 						this.score = this.currentScoreLevel_2;
-						button_array[i][j].setBackground(Color.MAGENTA);
 						playerScore.setText("" + this.currentScoreLevel_2);
-						panel.setBackground(Color.MAGENTA);
 					} else if (level == 4) {
 						this.score = this.currentScoreLevel_3;
-						button_array[i][j].setBackground(Color.ORANGE);
 						playerScore.setText("" + this.currentScoreLevel_3);
-						panel.setBackground(Color.orange);
 					} else {
 						this.score = this.currentScoreLevel_4;
-						button_array[i][j].setBackground(Color.YELLOW);
 						playerScore.setText("" + this.currentScoreLevel_4);
-						panel.setBackground(Color.YELLOW);
 					}
 				}
+				button_array[i][j].setFont(new Font("serif", Font.BOLD, 25));
+				button_array[i][j].setBackground(colorList[this.level - 1]);
 			}
 		}
 		this.mouseCount = 0;
+		panel.setBackground(colorList[this.level - 1]);
 		panel.setLocation(0, 50);
 		panel.setVisible(true);
 	}
